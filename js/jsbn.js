@@ -1265,6 +1265,7 @@ BigInteger.prototype.isProbablePrime = bnIsProbablePrime;
 
 forge.jsbn = forge.jsbn || {};
 forge.jsbn.BigInteger = BigInteger;
+forge.jsbn.Barrett = Barrett;
 
 } // end module implementation
 
