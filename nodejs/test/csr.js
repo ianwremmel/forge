@@ -142,7 +142,7 @@ if(typeof define === 'function') {
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/pki')());
+    require('../../js/x509'));
 }
 
 })();

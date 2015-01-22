@@ -21,6 +21,7 @@ var forge = {
   pkcs7 : module.exports,
   asn1 : require("./asn1"),
   aes : require("./aes"),
+  des : require("./des"),
   pki : require("./x509"),
   pem : require("./pem"),
   random : require("./random"),

@@ -68,8 +68,8 @@ if(typeof define === 'function') {
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/sha1')(),
-    require('../../js/util')());
+    require('../../js/sha1'),
+    require('../../js/util'));
 }
 
 })();

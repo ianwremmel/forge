@@ -78,8 +78,8 @@ if(typeof define === 'function') {
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/hmac')(),
-    require('../../js/util')());
+    require('../../js/hmac'),
+    require('../../js/util'));
 }
 
 })();

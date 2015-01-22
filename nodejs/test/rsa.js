@@ -587,16 +587,19 @@ if(typeof define === 'function') {
     );
   });
 } else if(typeof module === 'object' && module.exports) {
+  // prepare Password-based Encryption
+  require('../../js/pbe');
+  
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/pki')(),
-    require('../../js/rsa')(),
-    require('../../js/md')(),
-    require('../../js/mgf')(),
-    require('../../js/pss')(),
-    require('../../js/random')(),
-    require('../../js/util')());
+    require('../../js/x509'),
+    require('../../js/rsa'),
+    require('../../js/md'),
+    require('../../js/mgf'),
+    require('../../js/pss'),
+    require('../../js/random'),
+    require('../../js/util'));
 }
 
 })();

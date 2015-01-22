@@ -110,8 +110,8 @@ if(typeof define === 'function') {
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/md5')(),
-    require('../../js/util')());
+    require('../../js/md5'),
+    require('../../js/util'));
 }
 
 })();

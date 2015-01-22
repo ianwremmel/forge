@@ -10,7 +10,8 @@
 
 var forge = {
   tls : require("./tls"),
-  cipher : require("./cipher")
+  cipher : require("./cipher"),
+  util : require("./util")
 };
 
 // setup AES

@@ -187,12 +187,12 @@ if(typeof define === 'function') {
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/kem')(),
-    require('../../js/md')(),
-    require('../../js/rsa')(),
-    require('../../js/util')(),
-    require('../../js/jsbn')(),
-    require('../../js/random')());
+    require('../../js/kem'),
+    require('../../js/md'),
+    require('../../js/rsa'),
+    require('../../js/util'),
+    require('../../js/jsbn'),
+    require('../../js/random'));
 }
 
 })();

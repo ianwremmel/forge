@@ -112,12 +112,15 @@ if(typeof define === 'function') {
     );
   });
 } else if(typeof module === 'object' && module.exports) {
+  // prepare SHA256
+  require('../../js/sha256');
+  
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/pbkdf2')(),
-    require('../../js/md')(),
-    require('../../js/util')());
+    require('../../js/pbkdf2'),
+    require('../../js/md'),
+    require('../../js/util'));
 }
 
 })();

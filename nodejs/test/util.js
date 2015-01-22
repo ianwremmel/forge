@@ -400,7 +400,7 @@ if(typeof define === 'function') {
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/util')());
+    require('../../js/util'));
 }
 
 })();

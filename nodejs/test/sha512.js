@@ -167,8 +167,8 @@ if(typeof define === 'function') {
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/sha512')(),
-    require('../../js/util')());
+    require('../../js/sha512'),
+    require('../../js/util'));
 }
 
 })();

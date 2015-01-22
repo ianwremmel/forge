@@ -340,11 +340,11 @@ if(typeof define === 'function') {
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/pkcs7')(),
-    require('../../js/pki')(),
-    require('../../js/aes')(),
-    require('../../js/des')(),
-    require('../../js/util')());
+    require('../../js/pkcs7'),
+    require('../../js/x509'),
+    require('../../js/aes'),
+    require('../../js/des'),
+    require('../../js/util'));
 }
 
 })();

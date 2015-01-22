@@ -12,7 +12,8 @@
 var forge = {
   kem : module.exports || {},
   jsbn : require("./jsbn"),
-  random : require("./random")
+  random : require("./random"),
+  util : require("./util")
 };
 
 var BigInteger = forge.jsbn.BigInteger;

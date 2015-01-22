@@ -1,7 +1,7 @@
 (function() {
 
 function Tests(ASSERT, FORGE) {
-  var forge = FORGE();
+  var forge = FORGE;
   var PKCS12 = forge.pkcs12;
   var ASN1 = forge.asn1;
   var PKI = forge.pki;
@@ -37,6 +37,7 @@ function Tests(ASSERT, FORGE) {
     it('should create encrypted-key-only p12', function() {
       /* Note we need to mock the PRNG, since the PKCS#12 file uses encryption
         which otherwise would differ each time due to the randomized IV. */
+      debugger;
       var oldRandomGenerate = forge.random.generate;
       forge.random.generate = function(num) {
         return UTIL.createBuffer().fillWithByte(0, num).getBytes();

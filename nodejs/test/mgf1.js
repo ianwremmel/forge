@@ -28,12 +28,15 @@ if(typeof define === 'function') {
     );
   });
 } else if(typeof module === 'object' && module.exports) {
+  // prepare SHA1
+  require('../../js/sha1');
+  
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/mgf')(),
-    require('../../js/md')(),
-    require('../../js/util')());
+    require('../../js/mgf'),
+    require('../../js/md'),
+    require('../../js/util'));
 }
 
 })();

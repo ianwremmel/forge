@@ -255,8 +255,8 @@ if(typeof define === 'function') {
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/asn1')(),
-    require('../../js/util')());
+    require('../../js/asn1'),
+    require('../../js/util'));
 }
 
 })();

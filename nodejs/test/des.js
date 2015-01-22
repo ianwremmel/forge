@@ -147,9 +147,9 @@ if(typeof define === 'function') {
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/cipher')(forge),
-    require('../../js/des')(forge),
-    require('../../js/util')(forge));
+    require('../../js/cipher'),
+    require('../../js/des'),
+    require('../../js/util'));
 }
 
 })();

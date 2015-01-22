@@ -98,7 +98,7 @@ if(typeof define === 'function') {
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/pem')());
+    require('../../js/pem'));
 }
 
 })();

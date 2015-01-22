@@ -23,6 +23,7 @@ var forge = {
   pbe : module.exports || {},
   aes : require("./aes"),
   asn1 : require("./asn1"),
+  des : require("./des"),
   jsbn : require("./jsbn"),
   md : require("./md"),
   pem : require("./pem"),

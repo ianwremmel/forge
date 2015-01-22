@@ -726,9 +726,9 @@ if(typeof define === 'function') {
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/pki')(),
-    require('../../js/md')(),
-    require('../../js/util')());
+    require('../../js/x509'),
+    require('../../js/md'),
+    require('../../js/util'));
 }
 
 })();

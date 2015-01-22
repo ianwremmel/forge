@@ -1,7 +1,7 @@
 (function() {
 
 function Tests(ASSERT, RANDOM, UTIL) {
-  var random = RANDOM();
+  var random = RANDOM.createInstance();
 
   describe('random', function() {
     it('should generate 10 random bytes', function() {
@@ -14,7 +14,7 @@ function Tests(ASSERT, RANDOM, UTIL) {
     });
 
     it('should use a synchronous seed file', function() {
-      var rand = RANDOM();
+      var rand = RANDOM.createInstance();
       rand.seedFileSync = function(needed) {
         return UTIL.fillString('a', needed);
       };
@@ -23,7 +23,7 @@ function Tests(ASSERT, RANDOM, UTIL) {
     });
 
     it('should use an asynchronous seed file', function(done) {
-      var rand = RANDOM();
+      var rand = RANDOM.createInstance();
       rand.seedFile = function(needed, callback) {
         callback(null, UTIL.fillString('a', needed));
       };
@@ -35,7 +35,7 @@ function Tests(ASSERT, RANDOM, UTIL) {
     });
 
     it('should collect some random bytes', function() {
-      var rand = RANDOM();
+      var rand = RANDOM.createInstance();
       rand.seedFileSync = function(needed) {
         return UTIL.fillString('a', needed);
       };
@@ -64,7 +64,7 @@ if(typeof define === 'function') {
   Tests(
     require('assert'),
     require('../../js/random'),
-    require('../../js/util')());
+    require('../../js/util'));
 }
 
 })();

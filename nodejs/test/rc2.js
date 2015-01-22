@@ -102,8 +102,8 @@ if(typeof define === 'function') {
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/rc2')(),
-    require('../../js/util')());
+    require('../../js/rc2'),
+    require('../../js/util'));
 }
 
 })();

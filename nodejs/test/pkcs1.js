@@ -1095,11 +1095,11 @@ if(typeof define === 'function') {
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/pki')(),
-    require('../../js/pkcs1')(),
-    require('../../js/md')(),
-    require('../../js/jsbn')(),
-    require('../../js/util')());
+    require('../../js/x509'),
+    require('../../js/pkcs1'),
+    require('../../js/md'),
+    require('../../js/jsbn'),
+    require('../../js/util'));
 }
 
 })();

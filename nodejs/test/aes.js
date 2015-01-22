@@ -1205,9 +1205,9 @@ if(typeof define === 'function') {
   // assume NodeJS
   Tests(
     require('assert'),
-    require('../../js/cipher')(forge),
-    require('../../js/aes')(forge),
-    require('../../js/util')(forge));
+    require('../../js/cipher'),
+    require('../../js/aes'),
+    require('../../js/util'));
 }
 
 })();

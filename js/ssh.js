@@ -14,6 +14,8 @@ var forge = {
   ssh : module.exports,
   aes : require("./aes"),
   hmac : require("./hmac"),
+  md : require("./md"),
+  pki : require("./x509"),
   util : require("./util")
 };
 

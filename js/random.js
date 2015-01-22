@@ -16,14 +16,13 @@
 (function() {
 
 var forge = {
-  random : module.exports || {},
-  util : require("./util"),
   aes : require("./aes"),
   md : require("./md"),
-  prng : require("./prng")
+  prng : require("./prng"),
+  util : require("./util")
 };
 
-// grab SHA-256
+// prepare SHA-256
 require("./sha256");
 
 (function(jQuery) {
@@ -172,10 +171,7 @@ if(forge.disableNativeCode || (!_nodejs && !getRandomValues)) {
 }
 
 /* Random API */
-// extend forge.random with _ctx
-for(var key in _ctx) {
-  forge.random[key] = _ctx[key];
-}
+forge.random = module.exports = _ctx;
 
 // expose spawn PRNG
 forge.random.createInstance = spawnPrng;

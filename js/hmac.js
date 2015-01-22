@@ -11,9 +11,15 @@
 
 var forge = {
   hmac : module.exports || {},
-  util : require("./util.js"),
-  md : require("./md.js")
-}
+  util : require("./util"),
+  md : require("./md")
+};
+
+// setup MD5
+require("./md5");
+
+// setup SHA1
+require("./sha1");
 
 /* HMAC API */
 var hmac = forge.hmac = forge.hmac || {};
