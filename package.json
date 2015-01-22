@@ -75,8 +75,8 @@
     "x509"
   ],
   "scripts": {
-    "bundle": "r.js -o minify.js optimize=none out=js/forge.bundle.js",
-    "minify": "r.js -o minify.js",
+    "bundle": "browserify --standalone=forge --outfile js/forge.bundle.js js/forge.js",
+    "minify": "browserify --standalone=forge js/forge.js | uglifyjs --output js/forge.min.js",
     "jscs": "jscs *.js js/*.js minify.js nodejs/*.js nodejs/test/*.js nodejs/ui/*.js tests/*.js",
     "jshint": "jshint *.js js/*.js minify.js nodejs/*.js nodejs/test/*.js nodejs/ui/*.js tests/*.js"
   }

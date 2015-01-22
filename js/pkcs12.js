@@ -94,15 +94,35 @@
  * }
  */
 (function() {
-/* ########## Begin module implementation ########## */
-function initModule(forge) {
+
+var forge = {
+  pkcs12 : module.exports || {},
+  asn1 : require("./asn1"),
+  hmac : require("./hmac"),
+  pkcs7 : require("./pkcs7"),
+  pki : require("./x509"),
+  pbe : require("./pbe"),
+  random : require("./random"),
+  rsa : require("./rsa"),
+  md : require("./md"),
+  util : require("./util")
+}
+
+// setup SHA1
+require("./sha1");
+
+// setup SHA256
+require("./sha256");
+
+// setup SHA512
+require("./sha512");
 
 // shortcut for asn.1 & PKI API
 var asn1 = forge.asn1;
 var pki = forge.pki;
 
 // shortcut for PKCS#12 API
-var p12 = forge.pkcs12 = forge.pkcs12 || {};
+var p12 = forge.pkcs12;
 
 var contentInfoValidator = {
   name: 'ContentInfo',
@@ -1053,69 +1073,4 @@ p12.toPkcs12Asn1 = function(key, cert, password, options) {
  */
 p12.generateKey = forge.pbe.generatePkcs12Key;
 
-} // end module implementation
-
-/* ########## Begin module wrapper ########## */
-var name = 'pkcs12';
-if(typeof define !== 'function') {
-  // NodeJS -> AMD
-  if(typeof module === 'object' && module.exports) {
-    var nodeJS = true;
-    define = function(ids, factory) {
-      factory(require, module);
-    };
-  } else {
-    // <script>
-    if(typeof forge === 'undefined') {
-      forge = {};
-    }
-    return initModule(forge);
-  }
-}
-// AMD
-var deps;
-var defineFunc = function(require, module) {
-  module.exports = function(forge) {
-    var mods = deps.map(function(dep) {
-      return require(dep);
-    }).concat(initModule);
-    // handle circular dependencies
-    forge = forge || {};
-    forge.defined = forge.defined || {};
-    if(forge.defined[name]) {
-      return forge[name];
-    }
-    forge.defined[name] = true;
-    for(var i = 0; i < mods.length; ++i) {
-      mods[i](forge);
-    }
-    return forge[name];
-  };
-};
-var tmpDefine = define;
-define = function(ids, factory) {
-  deps = (typeof ids === 'string') ? factory.slice(2) : ids.slice(2);
-  if(nodeJS) {
-    delete define;
-    return tmpDefine.apply(null, Array.prototype.slice.call(arguments, 0));
-  }
-  define = tmpDefine;
-  return define.apply(null, Array.prototype.slice.call(arguments, 0));
-};
-define([
-  'require',
-  'module',
-  './asn1',
-  './hmac',
-  './oids',
-  './pkcs7asn1',
-  './pbe',
-  './random',
-  './rsa',
-  './sha1',
-  './util',
-  './x509'
-], function() {
-  defineFunc.apply(null, Array.prototype.slice.call(arguments, 0));
-});
 })();

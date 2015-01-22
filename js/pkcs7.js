@@ -16,14 +16,28 @@
  * PKCS standards like PKCS #12.
  */
 (function() {
-/* ########## Begin module implementation ########## */
-function initModule(forge) {
+
+var forge = {
+  pkcs7 : module.exports,
+  asn1 : require("./asn1"),
+  aes : require("./aes"),
+  pki : require("./x509"),
+  pem : require("./pem"),
+  random : require("./random"),
+  util : require("./util")
+};
+
+// setup PKCS7 ASN1 validation
+require("./pkcs7asn1");
 
 // shortcut for ASN.1 API
 var asn1 = forge.asn1;
 
 // shortcut for PKCS#7 API
-var p7 = forge.pkcs7 = forge.pkcs7 || {};
+var p7 = forge.pkcs7;
+
+// shortcut for PKCS#7 Validator
+forge.pkcs7.asn1 = require("./pkcs7asn1");
 
 /**
  * Converts a PKCS#7 message from PEM format.
@@ -775,68 +789,4 @@ p7.createEnvelopedData = function() {
   return msg;
 };
 
-} // end module implementation
-
-/* ########## Begin module wrapper ########## */
-var name = 'pkcs7';
-if(typeof define !== 'function') {
-  // NodeJS -> AMD
-  if(typeof module === 'object' && module.exports) {
-    var nodeJS = true;
-    define = function(ids, factory) {
-      factory(require, module);
-    };
-  } else {
-    // <script>
-    if(typeof forge === 'undefined') {
-      forge = {};
-    }
-    return initModule(forge);
-  }
-}
-// AMD
-var deps;
-var defineFunc = function(require, module) {
-  module.exports = function(forge) {
-    var mods = deps.map(function(dep) {
-      return require(dep);
-    }).concat(initModule);
-    // handle circular dependencies
-    forge = forge || {};
-    forge.defined = forge.defined || {};
-    if(forge.defined[name]) {
-      return forge[name];
-    }
-    forge.defined[name] = true;
-    for(var i = 0; i < mods.length; ++i) {
-      mods[i](forge);
-    }
-    return forge[name];
-  };
-};
-var tmpDefine = define;
-define = function(ids, factory) {
-  deps = (typeof ids === 'string') ? factory.slice(2) : ids.slice(2);
-  if(nodeJS) {
-    delete define;
-    return tmpDefine.apply(null, Array.prototype.slice.call(arguments, 0));
-  }
-  define = tmpDefine;
-  return define.apply(null, Array.prototype.slice.call(arguments, 0));
-};
-define([
-  'require',
-  'module',
-  './aes',
-  './asn1',
-  './des',
-  './oids',
-  './pem',
-  './pkcs7asn1',
-  './random',
-  './util',
-  './x509'
-], function() {
-  defineFunc.apply(null, Array.prototype.slice.call(arguments, 0));
-});
 })();

@@ -8,8 +8,12 @@
  * Copyright (c) 2009-2013 Digital Bazaar, Inc.
  */
 (function() {
-/* ########## Begin module implementation ########## */
-function initModule(forge) {
+  
+var forge = {
+  debug : require("./debug"),
+  log : require("./log"),
+  util : require("./util")
+}
 
 // logging category
 var cat = 'forge.task';
@@ -617,7 +621,7 @@ var finish = function(task, suppressCallbacks) {
 };
 
 /* Tasks API */
-forge.task = forge.task || {};
+forge.task = module.exports || {};
 
 /**
  * Starts a new task that will run the passed function asynchronously.
@@ -723,56 +727,4 @@ forge.task.createCondition = function() {
   return cond;
 };
 
-} // end module implementation
-
-/* ########## Begin module wrapper ########## */
-var name = 'task';
-if(typeof define !== 'function') {
-  // NodeJS -> AMD
-  if(typeof module === 'object' && module.exports) {
-    var nodeJS = true;
-    define = function(ids, factory) {
-      factory(require, module);
-    };
-  } else {
-    // <script>
-    if(typeof forge === 'undefined') {
-      forge = {};
-    }
-    return initModule(forge);
-  }
-}
-// AMD
-var deps;
-var defineFunc = function(require, module) {
-  module.exports = function(forge) {
-    var mods = deps.map(function(dep) {
-      return require(dep);
-    }).concat(initModule);
-    // handle circular dependencies
-    forge = forge || {};
-    forge.defined = forge.defined || {};
-    if(forge.defined[name]) {
-      return forge[name];
-    }
-    forge.defined[name] = true;
-    for(var i = 0; i < mods.length; ++i) {
-      mods[i](forge);
-    }
-    return forge[name];
-  };
-};
-var tmpDefine = define;
-define = function(ids, factory) {
-  deps = (typeof ids === 'string') ? factory.slice(2) : ids.slice(2);
-  if(nodeJS) {
-    delete define;
-    return tmpDefine.apply(null, Array.prototype.slice.call(arguments, 0));
-  }
-  define = tmpDefine;
-  return define.apply(null, Array.prototype.slice.call(arguments, 0));
-};
-define(['require', 'module', './debug', './log', './util'], function() {
-  defineFunc.apply(null, Array.prototype.slice.call(arguments, 0));
-});
 })();

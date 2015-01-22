@@ -6,87 +6,40 @@
  * Copyright 2011-2014 Digital Bazaar, Inc.
  */
 (function() {
-var name = 'forge';
-if(typeof define !== 'function') {
-  // NodeJS -> AMD
-  if(typeof module === 'object' && module.exports) {
-    var nodeJS = true;
-    define = function(ids, factory) {
-      factory(require, module);
-    };
-  } else {
-    // <script>
-    if(typeof forge === 'undefined') {
-      // set to true to disable native code if even it's available
-      forge = {disableNativeCode: false};
-    }
-    return;
-  }
+
+var forge = module.exports = {
+  aes : require("./aes"),
+  asn1 : require("./asn1"),
+  cipher : require("./cipher"),
+  debug : require("./debug"),
+  des : require("./des"),
+  hmac : require("./hmac"),
+  jsbn : require("./jsbn"),
+  kem : require("./kem"),
+  log : require("./log"),
+  md : require("./md"),
+  mgf : require("./mgf"),
+  pem : require("./pem"),
+  pkcs1 : require("./pkcs1"),
+  pkcs5 : require("./pkcs5"),
+  pkcs7 : require("./pkcs7"),
+  pkcs12 : require("./pkcs12"),
+  pki : require("./x509"),
+  prime : require("./prime"),
+  prng : require("./prng"),
+  pss : require("./pss"),
+  random : require("./random"),
+  rc2 : require("./rc2"),
+  ssh : require("./ssh"),
+  task : require("./task"),
+  tls : require("./tls"),
+  util : require("./util")
 }
-// AMD
-var deps;
-var defineFunc = function(require, module) {
-  module.exports = function(forge) {
-    var mods = deps.map(function(dep) {
-      return require(dep);
-    });
-    // handle circular dependencies
-    forge = forge || {};
-    forge.defined = forge.defined || {};
-    if(forge.defined[name]) {
-      return forge[name];
-    }
-    forge.defined[name] = true;
-    for(var i = 0; i < mods.length; ++i) {
-      mods[i](forge);
-    }
-    return forge;
-  };
-  // set to true to disable native code if even it's available
-  module.exports.disableNativeCode = false;
-  module.exports(module.exports);
-};
-var tmpDefine = define;
-define = function(ids, factory) {
-  deps = (typeof ids === 'string') ? factory.slice(2) : ids.slice(2);
-  if(nodeJS) {
-    delete define;
-    return tmpDefine.apply(null, Array.prototype.slice.call(arguments, 0));
-  }
-  define = tmpDefine;
-  return define.apply(null, Array.prototype.slice.call(arguments, 0));
-};
-define([
-  'require',
-  'module',
-  './aes',
-  './aesCipherSuites',
-  './asn1',
-  './cipher',
-  './cipherModes',
-  './debug',
-  './des',
-  './hmac',
-  './kem',
-  './log',
-  './md',
-  './mgf1',
-  './pbkdf2',
-  './pem',
-  './pkcs7',
-  './pkcs1',
-  './pkcs12',
-  './pki',
-  './prime',
-  './prng',
-  './pss',
-  './random',
-  './rc2',
-  './ssh',
-  './task',
-  './tls',
-  './util'
-], function() {
-  defineFunc.apply(null, Array.prototype.slice.call(arguments, 0));
-});
+
+// load symmetric cipherModes
+require("./cipherModes");
+
+// load AES cipher suites
+require("./aesCipherSuites");
+
 })();

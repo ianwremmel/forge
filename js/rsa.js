@@ -62,8 +62,17 @@
  * The OID for the RSA key algorithm is: 1.2.840.113549.1.1.1
  */
 (function() {
-function initModule(forge) {
-/* ########## Begin module implementation ########## */
+  
+var forge = {
+  rsa : module.exports,
+  pki : require("./pki"),
+  asn1 : require("./asn1"),
+  jsbn : require("./jsbn"),
+  pkcs1 : require("./pkcs1"),
+  prime : require("./prime"),
+  random : require("./random"),
+  util : require("./util")
+}
 
 if(typeof BigInteger === 'undefined') {
   var BigInteger = forge.jsbn.BigInteger;
@@ -75,8 +84,7 @@ var asn1 = forge.asn1;
 /*
  * RSA encryption and decryption, see RFC 2313.
  */
-forge.pki = forge.pki || {};
-forge.pki.rsa = forge.rsa = forge.rsa || {};
+forge.pki.rsa = forge.rsa;
 var pki = forge.pki;
 
 // for finding primes, which are 30k+i for i = 1, 7, 11, 13, 17, 19, 23, 29
@@ -1647,66 +1655,4 @@ function _getMillerRabinTests(bits) {
   return 2;
 }
 
-} // end module implementation
-
-/* ########## Begin module wrapper ########## */
-var name = 'rsa';
-if(typeof define !== 'function') {
-  // NodeJS -> AMD
-  if(typeof module === 'object' && module.exports) {
-    var nodeJS = true;
-    define = function(ids, factory) {
-      factory(require, module);
-    };
-  } else {
-    // <script>
-    if(typeof forge === 'undefined') {
-      forge = {};
-    }
-    return initModule(forge);
-  }
-}
-// AMD
-var deps;
-var defineFunc = function(require, module) {
-  module.exports = function(forge) {
-    var mods = deps.map(function(dep) {
-      return require(dep);
-    }).concat(initModule);
-    // handle circular dependencies
-    forge = forge || {};
-    forge.defined = forge.defined || {};
-    if(forge.defined[name]) {
-      return forge[name];
-    }
-    forge.defined[name] = true;
-    for(var i = 0; i < mods.length; ++i) {
-      mods[i](forge);
-    }
-    return forge[name];
-  };
-};
-var tmpDefine = define;
-define = function(ids, factory) {
-  deps = (typeof ids === 'string') ? factory.slice(2) : ids.slice(2);
-  if(nodeJS) {
-    delete define;
-    return tmpDefine.apply(null, Array.prototype.slice.call(arguments, 0));
-  }
-  define = tmpDefine;
-  return define.apply(null, Array.prototype.slice.call(arguments, 0));
-};
-define([
-  'require',
-  'module',
-  './asn1',
-  './jsbn',
-  './oids',
-  './pkcs1',
-  './prime',
-  './random',
-  './util'
-], function() {
-  defineFunc.apply(null, Array.prototype.slice.call(arguments, 0));
-});
 })();

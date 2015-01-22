@@ -134,11 +134,15 @@
  * 0x06062A864886F70D
  */
 (function() {
-/* ########## Begin module implementation ########## */
-function initModule(forge) {
 
 /* ASN.1 API */
-var asn1 = forge.asn1 = forge.asn1 || {};
+var forge = {
+  asn1 : module.exports || {},
+  util : require("./util"),
+  pki : {}
+};
+var asn1 = forge.asn1;
+forge.pki = require("./pki");
 
 /**
  * ASN.1 classes.
@@ -1059,56 +1063,4 @@ asn1.prettyPrint = function(obj, level, indentation) {
   return rval;
 };
 
-} // end module implementation
-
-/* ########## Begin module wrapper ########## */
-var name = 'asn1';
-if(typeof define !== 'function') {
-  // NodeJS -> AMD
-  if(typeof module === 'object' && module.exports) {
-    var nodeJS = true;
-    define = function(ids, factory) {
-      factory(require, module);
-    };
-  } else {
-    // <script>
-    if(typeof forge === 'undefined') {
-      forge = {};
-    }
-    return initModule(forge);
-  }
-}
-// AMD
-var deps;
-var defineFunc = function(require, module) {
-  module.exports = function(forge) {
-    var mods = deps.map(function(dep) {
-      return require(dep);
-    }).concat(initModule);
-    // handle circular dependencies
-    forge = forge || {};
-    forge.defined = forge.defined || {};
-    if(forge.defined[name]) {
-      return forge[name];
-    }
-    forge.defined[name] = true;
-    for(var i = 0; i < mods.length; ++i) {
-      mods[i](forge);
-    }
-    return forge[name];
-  };
-};
-var tmpDefine = define;
-define = function(ids, factory) {
-  deps = (typeof ids === 'string') ? factory.slice(2) : ids.slice(2);
-  if(nodeJS) {
-    delete define;
-    return tmpDefine.apply(null, Array.prototype.slice.call(arguments, 0));
-  }
-  define = tmpDefine;
-  return define.apply(null, Array.prototype.slice.call(arguments, 0));
-};
-define(['require', 'module', './util', './oids'], function() {
-  defineFunc.apply(null, Array.prototype.slice.call(arguments, 0));
-});
 })();

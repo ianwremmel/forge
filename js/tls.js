@@ -231,8 +231,6 @@
  * timing signal.
  */
 (function() {
-/* ########## Begin module implementation ########## */
-function initModule(forge) {
 
 /**
  * Generates pseudo random bytes by mixing the result of two hash functions,
@@ -4134,8 +4132,33 @@ tls.createConnection = function(options) {
   return c;
 };
 
+  'require',
+  'module',
+  './asn1',
+  './hmac',
+  './md',
+  './pem',
+  './pki',
+  './random',
+  './util'
+
 /* TLS API */
-forge.tls = forge.tls || {};
+var forge = {
+  tls : module.exports || {},
+  asn1 : require("./asn1"),
+  hmac : require("./hmac"),
+  md : require("./md"),
+  pem : require("./pem"),
+  pki : require("./x509"),
+  random : require("./random"),
+  util : require("./util")
+};
+
+// setup SHA1
+require("./sha1");
+
+// setup MD5
+require("./md5");
 
 // expose non-functions
 for(var key in tls) {
@@ -4252,65 +4275,4 @@ forge.tls.createSessionCache = tls.createSessionCache;
  */
 forge.tls.createConnection = tls.createConnection;
 
-} // end module implementation
-
-/* ########## Begin module wrapper ########## */
-var name = 'tls';
-if(typeof define !== 'function') {
-  // NodeJS -> AMD
-  if(typeof module === 'object' && module.exports) {
-    var nodeJS = true;
-    define = function(ids, factory) {
-      factory(require, module);
-    };
-  } else {
-    // <script>
-    if(typeof forge === 'undefined') {
-      forge = {};
-    }
-    return initModule(forge);
-  }
-}
-// AMD
-var deps;
-var defineFunc = function(require, module) {
-  module.exports = function(forge) {
-    var mods = deps.map(function(dep) {
-      return require(dep);
-    }).concat(initModule);
-    // handle circular dependencies
-    forge = forge || {};
-    forge.defined = forge.defined || {};
-    if(forge.defined[name]) {
-      return forge[name];
-    }
-    forge.defined[name] = true;
-    for(var i = 0; i < mods.length; ++i) {
-      mods[i](forge);
-    }
-    return forge[name];
-  };
-};
-var tmpDefine = define;
-define = function(ids, factory) {
-  deps = (typeof ids === 'string') ? factory.slice(2) : ids.slice(2);
-  if(nodeJS) {
-    delete define;
-    return tmpDefine.apply(null, Array.prototype.slice.call(arguments, 0));
-  }
-  define = tmpDefine;
-  return define.apply(null, Array.prototype.slice.call(arguments, 0));
-};
-define([
-  'require',
-  'module',
-  './asn1',
-  './hmac',
-  './md',
-  './pem',
-  './pki',
-  './random',
-  './util'], function() {
-  defineFunc.apply(null, Array.prototype.slice.call(arguments, 0));
-});
 })();
