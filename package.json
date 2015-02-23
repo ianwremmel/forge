@@ -22,6 +22,9 @@
       "email": "christoph@christophdorn.com"
     }
   ],
+  "dependencies": {
+    "jsbn": "git+https://github.com/rynomad/jsbn.git"
+  }
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-browserify": "^3.3.0",
