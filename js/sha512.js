@@ -81,13 +81,13 @@ sha512.create = function(algorithm) {
   for(var wi = 0; wi < 80; ++wi) {
     _w[wi] = new Array(2);
   }
-
+  
   // message digest object
   var md = {
     // SHA-512 => sha512
     algorithm: algorithm.replace('-', '').toLowerCase(),
     blockLength: 128,
-    digestLength: 64,
+    digestLength: _lengths[algorithm],
     // 56-bit length of message so far (does not including padding)
     messageLength: 0,
     // true 128-bit message length as four 32-bit ints
@@ -237,6 +237,9 @@ var _k = null;
 // initial hash states
 var _states = null;
 
+// algorithm lengths
+var _lengths = null;
+
 /**
  * Initializes the constant tables.
  */
@@ -288,6 +291,14 @@ function _init() {
     [0x4cc5d4be, 0xcb3e42b6], [0x597f299c, 0xfc657e2a],
     [0x5fcb6fab, 0x3ad6faec], [0x6c44198c, 0x4a475817]
   ];
+
+  // hash lengths
+  _lengths = {
+    'SHA-512' : 64,
+    'SHA-384' : 48,
+    'SHA-512/256' : 32,
+    'SHA-512-224' : 28
+  }
 
   // initial hash states
   _states = {};
