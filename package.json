@@ -33,6 +33,9 @@
     "jscs": "^1.8.1",
     "load-grunt-tasks": "^2.0.0"
   },
+  "browser": {
+    "crypto": false
+  },
   "repository": {
     "type": "git",
     "url": "http://github.com/digitalbazaar/forge"
