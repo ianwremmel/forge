@@ -7,5 +7,5 @@
  */
 
 (function() {
-  exports.BigInteger = require("jsbn")
+  exports.BigInteger = require("jsbn").BigInteger;
 })();
