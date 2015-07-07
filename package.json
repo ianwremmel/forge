@@ -23,7 +23,7 @@
     }
   ],
   "dependencies": {
-    "jsbn": "git+https://github.com/andyperlitch/jsbn.git"
+    "jsbn": "git+https://github.com/ianwremmel/jsbn.git#fix-weird-ua",
   },
   "devDependencies": {
     "grunt": "^0.4.5",
